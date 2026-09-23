@@ -47,8 +47,7 @@
                     {{-- FOTO --}}
                     <div class="col-md-4 text-center">
                         @if ($participant->photo)
-                            <img src="{{ asset($participant->photo) }}"
-                                class="rounded shadow border d-block mx-auto"
+                            <img src="{{ asset($participant->photo) }}" class="rounded shadow border d-block mx-auto"
                                 style="width:250px;height:250px;object-fit:cover;">
                         @else
                             <div class="text-muted">Tidak ada foto</div>
@@ -208,8 +207,8 @@
                     <div class="d-flex justify-content-between">
 
                         <div class="">
-                            <a href="{{ route('participants.index') }}" class="btn btn-outline-secondary">
-                                Kembali
+                            <a href="{{ $returnUrl ?? route('participants.index') }}" class="btn btn-outline-secondary">
+                                <i class="bi bi-arrow-left"></i> Kembali
                             </a>
                         </div>
 

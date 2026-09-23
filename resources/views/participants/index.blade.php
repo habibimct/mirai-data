@@ -187,15 +187,22 @@
 
                             {{-- Aksi --}}
                             <td class="text-center">
-                                <a href="{{ route('participants.show', $p->id) }}" class="btn btn-outline-primary btn-sm">
-                                    <i class="bi bi-eye-fill">Detail</i>
+                                <a href="{{ route('participants.show', [
+                                    'id' => $p->id,
+                                    'return_url' => request()->fullUrl(),
+                                ]) }}"
+                                    class="btn btn-outline-primary btn-sm">
+                                    <i class="bi bi-eye-fill"></i> Detail
                                 </a>
 
                                 @auth
                                     @if (auth()->user()->role == 'admin')
-                                        <a href="{{ route('participants.edit', $p->id) }}"
+                                        <a href="{{ route('participants.edit', [
+                                            'id' => $p->id,
+                                            'return_url' => request()->fullUrl(),
+                                        ]) }}"
                                             class="btn btn-outline-warning btn-sm">
-                                            <i class="bi bi-pencil-square">Edit</i>
+                                            <i class="bi bi-pencil-square"></i> Edit
                                         </a>
 
                                         <form action="{{ route('participants.destroy', $p->id) }}" method="POST"
@@ -218,6 +225,6 @@
         @if ($participants instanceof \Illuminate\Pagination\LengthAwarePaginator)
             {{ $participants->withQueryString()->links() }}
         @endif
-        
+
     </div>
 @endsection

@@ -26,6 +26,8 @@
                     @csrf
                     @method('PUT')
 
+                    <input type="hidden" name="return_url" value="{{ $returnUrl ?? route('participants.index') }}">
+
                     <div class="row">
 
                         {{-- KOLOM KIRI --}}

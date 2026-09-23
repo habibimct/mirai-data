@@ -180,7 +180,9 @@ class ParticipantController extends Controller
 
         Participant::create($data);
 
-        return redirect()->route('participants.index');
+        return redirect()
+            ->route('participants.index')
+            ->with('success', 'Peserta berhasil ditambahkan.');
     }
 
     // =========================
@@ -189,6 +191,8 @@ class ParticipantController extends Controller
     public function show($id, Request $request)
     {
         $participant = Participant::findOrFail($id);
+
+        $returnUrl = $request->query('return_url');
 
         // =========================
         // BASE QUERY (FILTER)
@@ -249,16 +253,23 @@ class ParticipantController extends Controller
             'next',
             'qualifications',
             'filters',
+            'returnUrl'
         ));
     }
 
     // =========================
     // 5. FORM EDIT
     // =========================
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
         $participant = Participant::findOrFail($id);
-        return view('participants.edit', compact('participant'));
+
+        $returnUrl = $request->query('return_url');
+
+        return view('participants.edit', compact(
+            'participant',
+            'returnUrl'
+        ));
     }
 
     // =========================
@@ -370,8 +381,15 @@ class ParticipantController extends Controller
 
         $participant->update($data);
 
-        return redirect()->route('participants.index')
-            ->with('success', 'Data berhasil ditambahkan');
+        $returnUrl = $request->input('return_url');
+
+        if (!$returnUrl) {
+            $returnUrl = route('participants.index');
+        }
+
+        return redirect()
+            ->to($returnUrl)
+            ->with('success', 'Data peserta berhasil diperbarui.');
     }
 
     // =========================
