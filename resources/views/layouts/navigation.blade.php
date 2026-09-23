@@ -41,36 +41,41 @@
             </ul>
 
             {{-- RIGHT MENU --}}
-            <ul class="navbar-nav">
+            <ul class="navbar-nav align-items-lg-center">
 
-                <div class="d-flex align-items-center gap-3 me-3">
+                {{-- SOCIAL MEDIA --}}
+                <li class="nav-item me-lg-3">
+                    <div class="d-flex align-items-center gap-3">
 
-                    <a href="https://facebook.com/lpkmiraigresik?locale=id_ID" target="_blank" class="text-white fs-5">
-                        <i class="bi bi-facebook text-white fs-5 social-icon"></i>
-                    </a>
+                        <a href="https://facebook.com/lpkmiraigresik?locale=id_ID" target="_blank"
+                            class="text-white fs-5">
+                            <i class="bi bi-facebook text-white fs-5 social-icon"></i>
+                        </a>
 
-                    <a href="https://instagram.com/lpkmiraigresik/" target="_blank" class="text-white fs-5">
-                        <i class="bi bi-instagram text-white fs-5 social-icon"></i>
-                    </a>
+                        <a href="https://instagram.com/lpkmiraigresik/" target="_blank" class="text-white fs-5">
+                            <i class="bi bi-instagram text-white fs-5 social-icon"></i>
+                        </a>
 
-                    <a href="https://youtube.com/@LPKMIRAIGRESIK" target="_blank" class="text-white fs-5">
-                        <i class="bi bi-youtube text-white fs-5 social-icon"></i>
-                    </a>
+                        <a href="https://youtube.com/@LPKMIRAIGRESIK" target="_blank" class="text-white fs-5">
+                            <i class="bi bi-youtube text-white fs-5 social-icon"></i>
+                        </a>
 
-                    <a href="https://tiktok.com/@lpkmiraigresik" target="_blank" class="text-white fs-5">
-                        <i class="bi bi-tiktok text-white fs-5 social-icon"></i>
-                    </a>
+                        <a href="https://tiktok.com/@lpkmiraigresik" target="_blank" class="text-white fs-5">
+                            <i class="bi bi-tiktok text-white fs-5 social-icon"></i>
+                        </a>
 
-                    <a href="https://wa.me/6281234567890" target="_blank" class="text-white fs-5">
-                        <i class="bi bi-whatsapp text-white fs-5 social-icon"></i>
-                    </a>
+                        <a href="https://wa.me/6281234567890" target="_blank" class="text-white fs-5">
+                            <i class="bi bi-whatsapp text-white fs-5 social-icon"></i>
+                        </a>
 
-                </div>
+                    </div>
+                </li>
 
+                {{-- USER DROPDOWN --}}
                 <li class="nav-item dropdown">
 
                     <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button"
-                        data-bs-toggle="dropdown">
+                        data-bs-toggle="dropdown" aria-expanded="false">
 
                         <div class="bg-white text-primary rounded-circle d-flex align-items-center justify-content-center me-2"
                             style="width:35px;height:35px;font-size:14px;">
@@ -102,6 +107,7 @@
                                 <button type="submit" class="dropdown-item text-danger">
                                     🚪 Logout
                                 </button>
+
                             </form>
                         </li>
 

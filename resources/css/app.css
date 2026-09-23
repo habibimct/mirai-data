@@ -1,3 +1,14 @@
+@import 'bootstrap/dist/css/bootstrap.min.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Fix konflik Tailwind .collapse dengan Bootstrap Navbar */
+.navbar-collapse.collapse {
+    visibility: visible;
+}
+
+.navbar-collapse.collapse.show {
+    display: flex !important;
+}
