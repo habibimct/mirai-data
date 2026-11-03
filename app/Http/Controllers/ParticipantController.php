@@ -134,7 +134,7 @@ class ParticipantController extends Controller
             'qualification' => 'required|string|max:255',
             'photo' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
             'place_of_birth' => 'nullable',
-            'date_of_birth' => 'nullable|date',
+            'date_of_birth' => 'required|date',
             'address' => 'nullable',
             'status' => 'nullable|in:Sending,Existing',
             'japanese_skills' => 'nullable',
@@ -144,6 +144,9 @@ class ParticipantController extends Controller
             'youtube_link' => 'nullable|url',
             'welding_photos.*' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
+
+        // Hitung umur otomatis dari tanggal lahir
+        $data['age'] = \Carbon\Carbon::parse($data['date_of_birth'])->age;
 
         $data['youtube_link'] = $this->convertYoutube($request->youtube_link);
 
@@ -294,6 +297,9 @@ class ParticipantController extends Controller
             'youtube_link' => 'nullable|url',
             'welding_photos.*' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
+
+        // Hitung umur otomatis dari tanggal lahir
+        $data['age'] = \Carbon\Carbon::parse($data['date_of_birth'])->age;
 
         if ($request->filled('youtube_link')) {
             $data['youtube_link'] = $this->convertYoutube($request->youtube_link);

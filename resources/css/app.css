@@ -1,14 +1,98 @@
-@import 'bootstrap/dist/css/bootstrap.min.css';
+/* Layer order: Bootstrap first, Tailwind utilities last */
+@layer bootstrap, theme, base, components, utilities;
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* Bootstrap - temporary during migration */
+@import "bootstrap/dist/css/bootstrap.min.css" layer(bootstrap);
 
-/* Fix konflik Tailwind .collapse dengan Bootstrap Navbar */
+/* Tailwind CSS v4 - without Preflight */
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities);
+
+/* Laravel source detection */
+@source "../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php";
+@source "../../storage/framework/views/*.php";
+@source "../**/*.blade.php";
+@source "../**/*.js";
+
+/* Custom theme */
+@theme {
+    --font-sans: "Figtree", ui-sans-serif, system-ui, sans-serif;
+
+    --font-poppins: "Poppins", ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Tailwind Forms */
+@plugin "@tailwindcss/forms" {
+    strategy: "class";
+}
+
+/* Bootstrap Navbar compatibility */
 .navbar-collapse.collapse {
     visibility: visible;
 }
 
 .navbar-collapse.collapse.show {
     display: flex !important;
+}
+
+
+/* Alpine.js - prevent flash before initialization */
+[x-cloak] {
+    display: none !important;
+}
+
+
+/* Navigation component reset */
+@layer base {
+    .app-navigation a {
+        text-decoration: none;
+    }
+
+    .app-navigation button {
+        appearance: none;
+        border: 0;
+        background-color: transparent;
+        color: inherit;
+        font: inherit;
+    }
+}
+
+
+/* =========================================
+   MOBILE TOUCH INTERACTION
+========================================= */
+
+.app-navigation .mobile-pressable {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+/* BLUE BUTTON */
+.app-navigation .mobile-pressable-blue:active {
+    background-color: #dbeafe !important;
+    border-color: #93c5fd !important;
+    color: #1d4ed8 !important;
+    transform: scale(0.93) !important;
+    box-shadow: 0 0 0 4px rgb(59 130 246 / 12%) !important;
+}
+
+/* RED BUTTON */
+.app-navigation .mobile-pressable-red:active {
+    background-color: #fee2e2 !important;
+    border-color: #fecaca !important;
+    color: #dc2626 !important;
+    transform: scale(0.93) !important;
+    box-shadow: 0 0 0 4px rgb(239 68 68 / 12%) !important;
+}
+
+/* SMOOTH TRANSITION */
+.app-navigation .mobile-pressable {
+    transition:
+        background-color 150ms ease,
+        border-color 150ms ease,
+        color 150ms ease,
+        transform 150ms ease,
+        box-shadow 150ms ease;
 }
