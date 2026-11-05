@@ -22,6 +22,7 @@ class Participant extends Model
         'motivation',
         'vision',
         'youtube_link',
+        'skill_video_link',
         'welding_photos'
     ];
 

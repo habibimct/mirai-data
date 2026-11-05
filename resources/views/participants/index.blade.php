@@ -487,7 +487,7 @@
                                 <td class="px-4 py-3.5 text-center">
 
                                     <span class="text-sm font-medium text-slate-700">
-                                        {{ $p->age !== null ? $p->age . ' tahun' : '-' }}
+                                        {{ $p->age !== null ? $p->age . ' 歳' : '-' }}
                                     </span>
 
                                 </td>
@@ -510,14 +510,14 @@
 
                                         <span class="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-2.5 py-1 text-[11px] font-semibold text-emerald-700 ring-1 ring-emerald-200">
                                             <span class="h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
-                                            Sending
+                                            渡航予定 Sending
                                         </span>
 
                                     @elseif ($p->status == 'Existing')
 
                                         <span class="inline-flex items-center gap-1.5 rounded-full bg-blue-50 px-2.5 py-1 text-[11px] font-semibold text-blue-700 ring-1 ring-blue-200">
                                             <span class="h-1.5 w-1.5 rounded-full bg-blue-500"></span>
-                                            Existing
+                                            渡航済 Existing
                                         </span>
 
                                     @else

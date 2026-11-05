@@ -142,6 +142,7 @@ class ParticipantController extends Controller
             'motivation' => 'nullable',
             'vision' => 'nullable',
             'youtube_link' => 'nullable|url',
+            'skill_video_link' => 'nullable|url',
             'welding_photos.*' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
@@ -149,6 +150,10 @@ class ParticipantController extends Controller
         $data['age'] = \Carbon\Carbon::parse($data['date_of_birth'])->age;
 
         $data['youtube_link'] = $this->convertYoutube($request->youtube_link);
+
+        $data['skill_video_link'] = $request->filled('skill_video_link')
+            ? $this->convertYoutube($request->skill_video_link)
+            : null;
 
         if ($request->hasFile('photo')) {
 
@@ -295,6 +300,7 @@ class ParticipantController extends Controller
             'motivation' => 'nullable',
             'vision' => 'nullable',
             'youtube_link' => 'nullable|url',
+            'skill_video_link' => 'nullable|url',
             'welding_photos.*' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
@@ -306,6 +312,12 @@ class ParticipantController extends Controller
         } else {
             // JANGAN overwrite jika kosong
             unset($data['youtube_link']);
+        }
+
+        if ($request->filled('skill_video_link')) {
+            $data['skill_video_link'] = $this->convertYoutube($request->skill_video_link);
+        } else {
+            unset($data['skill_video_link']);
         }
 
         if ($request->hasFile('photo')) {
