@@ -10,11 +10,11 @@ class Participant extends Model
 {
     protected $fillable = [
         'name',
-        'age',
         'qualification',
         'photo',
         'place_of_birth',
         'date_of_birth',
+        'age',
         'address',
         'status',
         'japanese_skills',
@@ -29,11 +29,13 @@ class Participant extends Model
         'welding_photos' => 'array',
     ];
 
-    public function getAgeAttribute()
+    public function getAgeAttribute(): ?int
     {
-        return $this->date_of_birth
-            ? Carbon::parse($this->date_of_birth)->age
-            : null;
+        if (!$this->date_of_birth) {
+            return null;
+        }
+
+        return Carbon::parse($this->date_of_birth)->age;
     }
 
     use HasFactory;
