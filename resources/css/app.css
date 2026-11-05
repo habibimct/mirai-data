@@ -96,3 +96,30 @@
         transform 150ms ease,
         box-shadow 150ms ease;
 }
+
+
+/* Password Toggle Button Reset */
+.password-toggle {
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    outline: none;
+    cursor: pointer;
+}
+
+.password-toggle:hover {
+    background-color: #eff6ff !important;
+    color: #2563eb !important;
+}
+
+.password-toggle:active {
+    background-color: #dbeafe !important;
+}
+
+.password-toggle:focus-visible {
+    outline: 2px solid #3b82f6 !important;
+    outline-offset: 2px;
+}

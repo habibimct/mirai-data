@@ -1,221 +1,267 @@
+
 @extends('layouts.guest')
 
+@section('title', 'Register | LPK Mirai Gresik')
+
 @section('content')
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <div class="relative isolate flex min-h-screen items-center justify-center overflow-hidden bg-slate-950 px-4 py-10 sm:px-6">
 
-    <style>
-        body {
-            background:
-                linear-gradient(rgba(13, 110, 253, 0.85),
-                    rgba(13, 110, 253, 0.85)),
-                url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2071&auto=format&fit=crop');
-            background-size: cover;
-            background-position: center;
-            min-height: 100vh;
-            font-family: 'Poppins', sans-serif;
-        }
+        {{-- BACKGROUND --}}
+        <div
+            class="absolute inset-0 -z-20 bg-cover bg-center"
+            style="background-image: url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2071&auto=format&fit=crop');">
+        </div>
 
-        .register-card {
-            width: 100%;
-            max-width: 500px;
-            background: rgba(255, 255, 255, 0.96);
-            border-radius: 30px;
-            padding: 40px;
-            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.2);
-            backdrop-filter: blur(8px);
-        }
+        <div class="absolute inset-0 -z-10 bg-gradient-to-br from-blue-950/95 via-blue-900/90 to-indigo-950/95"></div>
 
-        .logo-circle {
-            width: 90px;
-            height: 90px;
-            border-radius: 50%;
-            background: #0d6efd;
-            color: white;
-            font-size: 38px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: auto;
-            box-shadow: 0 10px 20px rgba(13, 110, 253, 0.3);
-        }
+        {{-- DECORATION --}}
+        <div class="pointer-events-none absolute -left-32 -top-32 -z-10 h-96 w-96 rounded-full bg-blue-400/10 blur-3xl"></div>
+        <div class="pointer-events-none absolute -bottom-40 -right-32 -z-10 h-96 w-96 rounded-full bg-indigo-400/10 blur-3xl"></div>
 
-        .form-control {
-            height: 52px;
-            border-radius: 14px;
-            padding-left: 15px;
-        }
+        {{-- REGISTER CARD --}}
+        <div class="w-full max-w-[500px]">
 
-        .input-group .btn {
-            border-radius: 0 14px 14px 0;
-        }
+            <div class="overflow-hidden rounded-[2rem] border border-white/30 bg-white/95 shadow-2xl shadow-black/25 backdrop-blur-xl">
 
-        .btn-register {
-            height: 52px;
-            border-radius: 14px;
-            font-size: 17px;
-            font-weight: 600;
-            transition: 0.3s;
-        }
+                <div class="px-6 py-9 sm:px-10 sm:py-10">
 
-        .btn-register:hover {
-            transform: translateY(-2px);
-        }
+                    {{-- HEADER --}}
+                    <div class="mb-8 text-center">
 
-        @media (max-width: 768px) {
-            .register-card {
-                padding: 30px 25px;
-            }
-        }
-    </style>
-
-    <div class="container">
-
-        <div class="row justify-content-center align-items-center min-vh-100 py-4">
-
-            <div class="col-lg-5 col-md-7">
-
-                <div class="register-card mx-auto">
-
-                    {{-- ICON --}}
-                    <div class="text-center mb-4">
-
-                        <div class="logo-circle">
-                            📝
+                        <div class="mx-auto flex h-20 w-20 items-center justify-center rounded-3xl bg-gradient-to-br from-blue-600 to-indigo-700 text-white shadow-lg shadow-blue-600/30">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.7">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M16 4l4 4m-2-6a2.121 2.121 0 013 3L7 19l-4 1 1-4L18 3z" />
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M13 6l5 5" />
+                            </svg>
                         </div>
 
-                        <h1 class="fw-bold mt-4 mb-1">
-                            Create Account
-                        </h1>
+                        <div class="mt-6">
+                            <h1 class="text-3xl font-bold tracking-tight text-slate-900">
+                                Create Account
+                            </h1>
 
-                        <p class="text-muted mb-0">
-                            Silahkan daftar untuk membuat akun
-                        </p>
+                            <p class="mt-2 text-sm text-slate-500">
+                                Silakan daftar untuk membuat akun LPK Mirai Gresik.
+                            </p>
+                        </div>
 
                     </div>
 
                     {{-- ERROR --}}
                     @if ($errors->any())
-                        <div class="alert alert-danger rounded-4">
-                            {{ $errors->first() }}
+                        <div class="mb-6 flex items-start gap-3 rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-700">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="mt-0.5 h-5 w-5 shrink-0"
+                                viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd"
+                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm-1-11a1 1 0 112 0v3a1 1 0 11-2 0V7zm1 8a1 1 0 100-2 1 1 0 000 2z"
+                                    clip-rule="evenodd" />
+                            </svg>
+
+                            <div>
+                                <p class="font-semibold">Registrasi gagal</p>
+                                <p class="mt-1">{{ $errors->first() }}</p>
+                            </div>
                         </div>
                     @endif
 
-                    <form method="POST" action="{{ route('register') }}">
+                    {{-- REGISTER FORM --}}
+                    <form method="POST" action="{{ route('register') }}" class="space-y-5">
                         @csrf
 
                         {{-- NAME --}}
-                        <div class="mb-3">
-                            <label class="form-label fw-semibold">
-                                Nama
+                        <div>
+                            <label for="name" class="mb-2 block text-sm font-semibold text-slate-700">
+                                Nama Lengkap
                             </label>
 
-                            <input type="text" name="name" value="{{ old('name') }}" class="form-control"
-                                placeholder="Masukkan nama" required autofocus>
-                        </div>
+                            <input
+                                type="text"
+                                id="name"
+                                name="name"
+                                value="{{ old('name') }}"
+                                placeholder="Masukkan nama lengkap"
+                                autocomplete="name"
+                                required
+                                autofocus
+                                class="h-13 w-full rounded-xl border border-slate-300 bg-white px-4 text-sm text-slate-800 outline-none transition placeholder:text-slate-400 hover:border-slate-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 @error('name') border-red-400 focus:border-red-500 focus:ring-red-500/10 @enderror"
+                            >
 
-                        {{-- EMAIL --}}
-                        <div class="mb-3">
-                            <label class="form-label fw-semibold">
-                                Email
-                            </label>
-
-                            <input type="email" name="email" value="{{ old('email') }}" class="form-control"
-                                placeholder="Masukkan email" required>
-                        </div>
-
-                        {{-- PASSWORD --}}
-                        <div class="mb-3">
-                            <label class="form-label fw-semibold">
-                                Password
-                            </label>
-
-                            <div class="input-group">
-
-                                <input type="password" name="password" id="password" class="form-control border-end-0"
-                                    placeholder="Masukkan password" required>
-
-                                <button type="button" class="btn btn-outline-secondary"
-                                    onclick="togglePassword('password', this)">
-                                    👁️
-                                </button>
-
-                            </div>
-                        </div>
-
-                        {{-- CONFIRM PASSWORD --}}
-                        <div class="mb-4">
-                            <label class="form-label fw-semibold">
-                                Konfirmasi Password
-                            </label>
-
-                            <div class="input-group">
-
-                                <input type="password" name="password_confirmation" id="password_confirmation"
-                                    class="form-control border-end-0" placeholder="Ulangi password" required>
-
-                                <button type="button" class="btn btn-outline-secondary"
-                                    onclick="togglePassword('password_confirmation', this)">
-                                    👁️
-                                </button>
-
-                            </div>
-                        </div>
-
-                        {{-- KODE --}}
-                        <div class="mb-3">
-                            <label class="form-label">
-                                Kode Undangan
-                            </label>
-
-                            <input type="text" name="invite_code" class="form-control" placeholder="Kode silahkan minta ke admin" required>
-
-                            @error('invite_code')
-                                <div class="text-danger small mt-1">
-                                    {{ $message }}
-                                </div>
+                            @error('name')
+                                <p class="mt-1.5 text-xs text-red-600">{{ $message }}</p>
                             @enderror
                         </div>
 
-                        {{-- BUTTON --}}
-                        <button type="submit" class="btn btn-primary btn-register w-100 shadow-sm">
-                            Register
-                        </button>
+                        {{-- EMAIL --}}
+                        <div>
+                            <label for="email" class="mb-2 block text-sm font-semibold text-slate-700">
+                                Email
+                            </label>
 
-                        {{-- LOGIN --}}
-                        <div class="text-center mt-4">
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                value="{{ old('email') }}"
+                                placeholder="nama@email.com"
+                                autocomplete="email"
+                                required
+                                class="h-13 w-full rounded-xl border border-slate-300 bg-white px-4 text-sm text-slate-800 outline-none transition placeholder:text-slate-400 hover:border-slate-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 @error('email') border-red-400 focus:border-red-500 focus:ring-red-500/10 @enderror"
+                            >
 
-                            <span class="text-muted">
-                                Sudah punya akun?
-                            </span>
-
-                            <a href="{{ route('login') }}" class="text-decoration-none fw-semibold">
-                                Login
-                            </a>
-
+                            @error('email')
+                                <p class="mt-1.5 text-xs text-red-600">{{ $message }}</p>
+                            @enderror
                         </div>
 
+                        {{-- PASSWORD --}}
+                        <div>
+                            <label for="password" class="mb-2 block text-sm font-semibold text-slate-700">
+                                Password
+                            </label>
+
+                            <div
+                                x-data="{ showPassword: false }"
+                                class="relative"
+                            >
+                                <input
+                                    :type="showPassword ? 'text' : 'password'"
+                                    id="password"
+                                    name="password"
+                                    placeholder="Masukkan password"
+                                    autocomplete="new-password"
+                                    required
+                                    class="h-13 w-full rounded-xl border border-slate-300 bg-white px-4 pr-12 text-sm text-slate-800 outline-none transition placeholder:text-slate-400 hover:border-slate-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 @error('password') border-red-400 focus:border-red-500 focus:ring-red-500/10 @enderror"
+                                >
+
+                                {{-- SHOW / HIDE PASSWORD --}}
+                                <button
+                                    type="button"
+                                    x-on:click="showPassword = !showPassword"
+                                    x-bind:aria-label="showPassword ? 'Sembunyikan password' : 'Tampilkan password'"
+                                    x-bind:aria-pressed="showPassword"
+                                    class="password-toggle absolute right-1 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-lg text-slate-400 transition-all duration-200 hover:bg-blue-50 hover:text-blue-600 active:bg-blue-100 focus-visible:ring-2 focus-visible:ring-blue-500"
+                                >
+                                    <i
+                                        class="bi text-lg"
+                                        x-bind:class="showPassword ? 'bi-eye-slash-fill' : 'bi-eye-fill'"
+                                    ></i>
+                                </button>
+                            </div>
+
+                            @error('password')
+                                <p class="mt-1.5 text-xs text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        {{-- CONFIRM PASSWORD --}}
+                        <div>
+                            <label for="password_confirmation" class="mb-2 block text-sm font-semibold text-slate-700">
+                                Konfirmasi Password
+                            </label>
+
+                            <div
+                                x-data="{ showPassword: false }"
+                                class="relative"
+                            >
+                                <input
+                                    :type="showPassword ? 'text' : 'password'"
+                                    id="password_confirmation"
+                                    name="password_confirmation"
+                                    placeholder="Masukkan ulang password"
+                                    autocomplete="new-password"
+                                    required
+                                    class="h-13 w-full rounded-xl border border-slate-300 bg-white px-4 pr-12 text-sm text-slate-800 outline-none transition placeholder:text-slate-400 hover:border-slate-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10"
+                                >
+
+                                {{-- SHOW / HIDE PASSWORD --}}
+                                <button
+                                    type="button"
+                                    x-on:click="showPassword = !showPassword"
+                                    x-bind:aria-label="showPassword ? 'Sembunyikan password' : 'Tampilkan password'"
+                                    x-bind:aria-pressed="showPassword"
+                                    class="password-toggle absolute right-1 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-lg text-slate-400 transition-all duration-200 hover:bg-blue-50 hover:text-blue-600 active:bg-blue-100 focus-visible:ring-2 focus-visible:ring-blue-500"
+                                >
+                                    <i
+                                        class="bi text-lg"
+                                        x-bind:class="showPassword ? 'bi-eye-slash-fill' : 'bi-eye-fill'"
+                                    ></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        {{-- INVITATION CODE --}}
+                        <div>
+                            <label for="invite_code" class="mb-2 block text-sm font-semibold text-slate-700">
+                                Kode Undangan
+                            </label>
+
+                            <input
+                                type="text"
+                                id="invite_code"
+                                name="invite_code"
+                                placeholder="Masukkan kode dari admin"
+                                required
+                                value="{{ old('invite_code') }}"
+                                class="h-13 w-full rounded-xl border border-slate-300 bg-white px-4 text-sm text-slate-800 outline-none transition placeholder:text-slate-400 hover:border-slate-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 @error('invite_code') border-red-400 focus:border-red-500 focus:ring-red-500/10 @enderror"
+                            >
+
+                            <p class="mt-2 flex items-center gap-1.5 text-xs text-slate-500">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 shrink-0"
+                                    fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M12 9v2m0 4h.01M5.07 19h13.86a2 2 0 001.73-3L13.73 4a2 2 0 00-3.46 0L3.34 16a2 2 0 001.73 3z" />
+                                </svg>
+                                Kode undangan dapat diminta kepada admin.
+                            </p>
+
+                            @error('invite_code')
+                                <p class="mt-1.5 text-xs text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        {{-- REGISTER BUTTON --}}
+                        <button
+                            type="submit"
+                            class="flex h-13 w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-700 px-5 text-sm font-semibold text-white shadow-lg shadow-blue-600/20 transition duration-200 hover:-translate-y-0.5 hover:from-blue-700 hover:to-indigo-800 hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-blue-500/25 active:translate-y-0"
+                        >
+                            Create Account
+
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4"
+                                fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                            </svg>
+                        </button>
+
                     </form>
+
+                    {{-- LOGIN LINK --}}
+                    <div class="mt-7 border-t border-slate-200 pt-6 text-center">
+                        <p class="text-sm text-slate-500">
+                            Sudah memiliki akun?
+
+                            <a
+                                href="{{ route('login') }}"
+                                class="ml-1 font-semibold text-blue-600 transition hover:text-blue-800 hover:underline"
+                            >
+                                Login di sini
+                            </a>
+                        </p>
+                    </div>
 
                 </div>
 
             </div>
 
+            {{-- FOOTER --}}
+            <p class="mt-6 text-center text-xs text-white/60">
+                &copy; {{ date('Y') }} LPK Mirai Gresik. All rights reserved.
+            </p>
+
         </div>
 
     </div>
-
-    <script>
-        function togglePassword(id, btn) {
-
-            let input = document.getElementById(id);
-
-            if (input.type === 'password') {
-                input.type = 'text';
-                btn.innerHTML = '🙈';
-            } else {
-                input.type = 'password';
-                btn.innerHTML = '👁️';
-            }
-        }
-    </script>
 @endsection
