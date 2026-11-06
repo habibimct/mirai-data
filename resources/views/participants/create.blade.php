@@ -7,8 +7,8 @@
     <div class="mx-auto w-full max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
 
         <!-- ==========================================
-             PAGE HEADER
-        =========================================== -->
+                 PAGE HEADER
+            =========================================== -->
 
         <div class="mb-7 flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
 
@@ -47,8 +47,8 @@
 
 
         <!-- ==========================================
-         IMPORT EXCEL - COMPACT DESIGN
-    =========================================== -->
+             IMPORT EXCEL - COMPACT DESIGN
+        =========================================== -->
 
         <div class="mb-2 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
 
@@ -133,8 +133,8 @@
 
 
         <!-- ==========================================
-             MAIN FORM
-        =========================================== -->
+                 MAIN FORM
+            =========================================== -->
 
         <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
 
@@ -162,8 +162,8 @@
 
 
                 <!-- ==========================================
-                     VALIDATION ERRORS
-                =========================================== -->
+                         VALIDATION ERRORS
+                    =========================================== -->
 
                 @if ($errors->any())
 
@@ -191,8 +191,8 @@
 
 
                 <!-- ==========================================
-                     PARTICIPANT FORM
-                =========================================== -->
+                         PARTICIPANT FORM
+                    =========================================== -->
 
                 <form action="{{ route('participants.store') }}" method="POST" enctype="multipart/form-data">
 
@@ -202,8 +202,8 @@
 
 
                         <!-- ==================================
-                             LEFT COLUMN
-                        =================================== -->
+                                 LEFT COLUMN
+                            =================================== -->
 
                         <div class="space-y-5">
 
@@ -355,8 +355,8 @@
 
 
                         <!-- ==================================
-                             RIGHT COLUMN
-                        =================================== -->
+                                 RIGHT COLUMN
+                            =================================== -->
 
                         <div class="space-y-5">
 
@@ -518,7 +518,7 @@
 
 
 
-                            <!-- WELDING PHOTOS -->
+                            {{-- WELDING PHOTOS --}}
                             <div>
 
                                 <label for="welding_photos" class="mb-2 block text-sm font-semibold text-slate-700">
@@ -526,13 +526,22 @@
                                 </label>
 
                                 <input type="file" id="welding_photos" name="welding_photos[]" multiple
-                                    accept="image/*"
+                                    accept="image/jpeg,image/png"
                                     class="block w-full cursor-pointer rounded-xl border border-slate-300 bg-white text-sm text-slate-600 shadow-sm transition-all file:mr-4 file:cursor-pointer file:border-0 file:bg-slate-100 file:px-4 file:py-3 file:text-sm file:font-semibold file:text-slate-700 hover:file:bg-slate-200 focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-100">
 
                                 <p class="mt-2 text-xs text-slate-400">
                                     <i class="bi bi-images mr-1"></i>
-                                    Bisa mengunggah lebih dari satu gambar.
+                                    Bisa mengunggah beberapa foto sekaligus. Foto akan otomatis dikompres saat disimpan.
                                 </p>
+
+                                <p class="mt-1 text-xs text-blue-600">
+                                    <i class="bi bi-stars mr-1"></i>
+                                    Mendukung JPG dan PNG.
+                                </p>
+
+                                @error('welding_photos.*')
+                                    <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                                @enderror
 
                             </div>
 
@@ -542,8 +551,8 @@
 
 
                     <!-- ==========================================
-                         FORM ACTIONS
-                    =========================================== -->
+                             FORM ACTIONS
+                        =========================================== -->
 
                     <div
                         class="mt-8 flex flex-col-reverse justify-between gap-3 border-t border-slate-100 pt-6 sm:flex-row sm:items-center">

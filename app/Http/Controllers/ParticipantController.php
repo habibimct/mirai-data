@@ -143,7 +143,8 @@ class ParticipantController extends Controller
             'vision' => 'nullable',
             'youtube_link' => 'nullable|url',
             'skill_video_link' => 'nullable|url',
-            'welding_photos.*' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'welding_photos' => 'nullable|array',
+            'welding_photos.*' => 'nullable|image|mimes:jpg,jpeg,png|max:5120',
         ]);
 
         // Hitung umur otomatis dari tanggal lahir
@@ -172,15 +173,10 @@ class ParticipantController extends Controller
         if ($request->hasFile('welding_photos')) {
 
             $photos = [];
+
             foreach ($request->file('welding_photos') as $file) {
-                $filename = time() . '_' . $file->getClientOriginalName();
 
-                $file->move(
-                    public_path('uploads/welding_photos'),
-                    $filename
-                );
-
-                $photos[] = 'uploads/welding_photos/' . $filename;
+                $photos[] = $this->compressWeldingPhoto($file);
             }
 
             $data['welding_photos'] = $photos;
@@ -283,6 +279,7 @@ class ParticipantController extends Controller
     // =========================
     // 6. UPDATE DATA
     // =========================
+
     public function update(Request $request, $id)
     {
         $participant = Participant::findOrFail($id);
@@ -301,18 +298,39 @@ class ParticipantController extends Controller
             'vision' => 'nullable',
             'youtube_link' => 'nullable|url',
             'skill_video_link' => 'nullable|url',
-            'welding_photos.*' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+
+            // FOTO HASIL LAS: MAKSIMAL 5 MB PER FOTO
+            'welding_photos' => 'nullable|array',
+            'welding_photos.*' => 'nullable|image|mimes:jpg,jpeg,png|max:5120',
+
+            // FOTO YANG AKAN DIHAPUS
+            'delete_photos' => 'nullable|array',
+            'delete_photos.*' => 'string',
         ]);
 
-        // Hitung umur otomatis dari tanggal lahir
-        $data['age'] = \Carbon\Carbon::parse($data['date_of_birth'])->age;
+        // ==========================================
+        // HITUNG UMUR OTOMATIS
+        // ==========================================
+
+        if (array_key_exists('date_of_birth', $data)) {
+            $data['age'] = !empty($data['date_of_birth'])
+                ? \Carbon\Carbon::parse($data['date_of_birth'])->age
+                : null;
+        }
+
+        // ==========================================
+        // YOUTUBE VIDEO
+        // ==========================================
 
         if ($request->filled('youtube_link')) {
             $data['youtube_link'] = $this->convertYoutube($request->youtube_link);
         } else {
-            // JANGAN overwrite jika kosong
             unset($data['youtube_link']);
         }
+
+        // ==========================================
+        // SKILL VIDEO
+        // ==========================================
 
         if ($request->filled('skill_video_link')) {
             $data['skill_video_link'] = $this->convertYoutube($request->skill_video_link);
@@ -320,9 +338,12 @@ class ParticipantController extends Controller
             unset($data['skill_video_link']);
         }
 
+        // ==========================================
+        // FOTO PROFIL
+        // ==========================================
+
         if ($request->hasFile('photo')) {
 
-            // hapus foto lama
             if ($participant->photo && Storage::exists('public/' . $participant->photo)) {
                 Storage::delete('public/' . $participant->photo);
             }
@@ -339,63 +360,63 @@ class ParticipantController extends Controller
             $data['photo'] = 'uploads/participants/' . $filename;
         }
 
-        if ($request->hasFile('welding_photos')) {
+        // ==========================================
+        // FOTO HASIL LAS
+        // ==========================================
 
-            // upload baru
-            $photos = [];
-            foreach ($request->file('welding_photos') as $file) {
-                $path = $file->store(
-                    'welding_photos',
-                    'public'
-                );
-
-                $photos[] = $path;
-            }
-
-            $data['welding_photos'] = $photos;
-        }
-
-        // FOTO LAMA
+        // Ambil foto lama
         $existingPhotos = $participant->welding_photos ?? [];
 
-        // =========================
+        // Pastikan berupa array
+        if (!is_array($existingPhotos)) {
+            $existingPhotos = [];
+        }
+
+        // ==========================================
         // HAPUS FOTO TERPILIH
-        // =========================
-        if ($request->delete_photos) {
+        // ==========================================
 
-            foreach ($request->delete_photos as $photo) {
+        foreach ($request->input('delete_photos', []) as $photo) {
 
-                if (file_exists(public_path($photo))) {
-                    unlink(public_path($photo));
+            // Pastikan foto memang milik peserta ini
+            if (in_array($photo, $existingPhotos, true)) {
+
+                $filePath = public_path($photo);
+
+                if (is_file($filePath)) {
+                    unlink($filePath);
                 }
 
-                $existingPhotos = array_filter(
-                    $existingPhotos,
-                    fn($p) => $p != $photo
+                $existingPhotos = array_values(
+                    array_filter(
+                        $existingPhotos,
+                        fn($p) => $p !== $photo
+                    )
                 );
             }
         }
 
-        // =========================
-        // TAMBAH FOTO BARU
-        // =========================
+        // ==========================================
+        // UPLOAD FOTO BARU + KOMPRES OTOMATIS
+        // ==========================================
+
         if ($request->hasFile('welding_photos')) {
 
             foreach ($request->file('welding_photos') as $file) {
 
-                $filename = time() . '_' . $file->getClientOriginalName();
-
-                $file->move(
-                    public_path('uploads/welding_photos'),
-                    $filename
-                );
-
-                $existingPhotos[] = 'uploads/welding_photos/' . $filename;
+                $existingPhotos[] = $this->compressWeldingPhoto($file);
             }
         }
 
-        // simpan ulang
+        // ==========================================
+        // SIMPAN FOTO
+        // ==========================================
+
         $data['welding_photos'] = array_values($existingPhotos);
+
+        // ==========================================
+        // UPDATE DATABASE
+        // ==========================================
 
         $participant->update($data);
 
@@ -409,6 +430,7 @@ class ParticipantController extends Controller
             ->to($returnUrl)
             ->with('success', 'Data peserta berhasil diperbarui.');
     }
+
 
     // =========================
     // 7. DELETE
@@ -451,5 +473,152 @@ class ParticipantController extends Controller
 
         return redirect()->route('participants.index')
             ->with('success', 'Data berhasil diimport!');
+    }
+
+
+    /**
+     * Kompres foto hasil las menggunakan PHP GD.
+     * Maksimum resolusi 1920px, kualitas JPEG 82%.
+     */
+    private function compressWeldingPhoto(
+        \Illuminate\Http\UploadedFile $file
+    ): string {
+
+        // Pastikan ekstensi GD tersedia
+        if (
+            !function_exists('imagecreatefromstring') ||
+            !function_exists('imagejpeg')
+        ) {
+            throw \Illuminate\Validation\ValidationException::withMessages([
+                'welding_photos' => 'Fitur kompresi gambar belum tersedia. Hubungi administrator server.'
+            ]);
+        }
+
+        // Baca gambar asli
+        $imageData = file_get_contents($file->getRealPath());
+
+        if ($imageData === false) {
+            throw \Illuminate\Validation\ValidationException::withMessages([
+                'welding_photos' => 'Gagal membaca foto yang diunggah.'
+            ]);
+        }
+
+        $source = @imagecreatefromstring($imageData);
+
+        if (!$source) {
+            throw \Illuminate\Validation\ValidationException::withMessages([
+                'welding_photos' => 'Format gambar tidak dapat diproses.'
+            ]);
+        }
+
+        // Koreksi orientasi foto dari kamera jika EXIF tersedia
+        if (
+            in_array(strtolower($file->getClientOriginalExtension()), ['jpg', 'jpeg']) &&
+            function_exists('exif_read_data')
+        ) {
+            $exif = @exif_read_data($file->getRealPath());
+            $orientation = $exif['Orientation'] ?? 1;
+
+            $rotation = match ($orientation) {
+                3 => 180,
+                6 => -90,
+                8 => 90,
+                default => 0,
+            };
+
+            if ($rotation !== 0) {
+                $rotated = imagerotate($source, $rotation, 0);
+
+                if ($rotated !== false) {
+                    imagedestroy($source);
+                    $source = $rotated;
+                }
+            }
+        }
+
+        // Ukuran gambar asli
+        $width = imagesx($source);
+        $height = imagesy($source);
+
+        // Maksimum resolusi 1920 x 1920
+        $maxSize = 1920;
+
+        $scale = min(
+            1,
+            $maxSize / $width,
+            $maxSize / $height
+        );
+
+        $newWidth = max(1, (int) round($width * $scale));
+        $newHeight = max(1, (int) round($height * $scale));
+
+        // Buat canvas baru
+        $canvas = imagecreatetruecolor($newWidth, $newHeight);
+
+        if (!$canvas) {
+            imagedestroy($source);
+
+            throw \Illuminate\Validation\ValidationException::withMessages([
+                'welding_photos' => 'Gagal memproses ukuran gambar.'
+            ]);
+        }
+
+        // Latar putih untuk gambar PNG transparan
+        $white = imagecolorallocate($canvas, 255, 255, 255);
+        imagefill($canvas, 0, 0, $white);
+
+        // Resize gambar
+        imagecopyresampled(
+            $canvas,
+            $source,
+            0,
+            0,
+            0,
+            0,
+            $newWidth,
+            $newHeight,
+            $width,
+            $height
+        );
+
+        // Buat folder jika belum tersedia
+        $folder = public_path('uploads/welding_photos');
+
+        if (
+            !is_dir($folder) &&
+            !mkdir($folder, 0755, true) &&
+            !is_dir($folder)
+        ) {
+            imagedestroy($source);
+            imagedestroy($canvas);
+
+            throw \Illuminate\Validation\ValidationException::withMessages([
+                'welding_photos' => 'Folder penyimpanan foto tidak dapat dibuat.'
+            ]);
+        }
+
+        // Nama file unik
+        $filename = 'welding_' .
+            now()->format('Ymd_His') . '_' .
+            bin2hex(random_bytes(5)) . '.jpg';
+
+        $destination = $folder . '/' . $filename;
+
+        // Simpan sebagai JPEG kualitas 82
+        $saved = imagejpeg($canvas, $destination, 82);
+
+        imagedestroy($source);
+        imagedestroy($canvas);
+
+        if (!$saved) {
+            @unlink($destination);
+
+            throw \Illuminate\Validation\ValidationException::withMessages([
+                'welding_photos' => 'Gagal menyimpan hasil kompresi foto.'
+            ]);
+        }
+
+        // Kembalikan path relatif
+        return 'uploads/welding_photos/' . $filename;
     }
 }

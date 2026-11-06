@@ -25,8 +25,8 @@
     <div class="mx-auto w-full max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
 
         <!-- ==========================================
-                 PAGE HEADER
-            =========================================== -->
+                     PAGE HEADER
+                =========================================== -->
 
         <div class="mb-6 flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
 
@@ -66,8 +66,8 @@
 
 
         <!-- ==========================================
-                 MAIN FORM
-            =========================================== -->
+                     MAIN FORM
+                =========================================== -->
 
         <div class="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
 
@@ -94,8 +94,8 @@
             <div class="p-5 sm:p-6">
 
                 <!-- ==================================
-                         VALIDATION ERRORS
-                    =================================== -->
+                             VALIDATION ERRORS
+                        =================================== -->
 
                 @if ($errors->any())
 
@@ -132,8 +132,8 @@
 
 
                         <!-- ==================================
-                                 LEFT COLUMN
-                            =================================== -->
+                                     LEFT COLUMN
+                                =================================== -->
 
                         <div class="space-y-5">
 
@@ -247,8 +247,8 @@
 
 
                             <!-- ==================================
-                                     CURRENT PHOTO
-                                =================================== -->
+                                         CURRENT PHOTO
+                                    =================================== -->
 
                             <div>
 
@@ -280,8 +280,8 @@
 
 
                             <!-- ==================================
-                                     REPLACE PHOTO
-                                =================================== -->
+                                         REPLACE PHOTO
+                                    =================================== -->
 
                             <div>
 
@@ -319,8 +319,8 @@
 
 
                         <!-- ==================================
-                                 RIGHT COLUMN
-                            =================================== -->
+                                     RIGHT COLUMN
+                                =================================== -->
 
                         <div class="space-y-5">
 
@@ -389,8 +389,8 @@
 
 
                             <!-- ==================================
-                                     YOUTUBE
-                                =================================== -->
+                                         YOUTUBE
+                                    =================================== -->
 
                             <div>
 
@@ -453,7 +453,8 @@
                                     </div>
 
                                     <input type="url" name="skill_video_link" id="skill_video_link"
-                                        value="{{ old('skill_video_link', $participant->skill_video_link) }}" placeholder="https://youtube.com/..."
+                                        value="{{ old('skill_video_link', $participant->skill_video_link) }}"
+                                        placeholder="https://youtube.com/..."
                                         class="block w-full rounded-xl border border-slate-300 bg-white py-3 pl-11 pr-4 text-sm text-slate-800 shadow-sm outline-none transition-all placeholder:text-slate-400 hover:border-slate-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-100">
 
                                 </div>
@@ -488,8 +489,8 @@
 
 
                             <!-- ==================================
-                                     WELDING PHOTOS
-                                =================================== -->
+                                WELDING PHOTOS
+                            =================================== -->
 
                             <div class="pt-2">
 
@@ -512,14 +513,36 @@
 
                                 </div>
 
-
                                 <!-- ADD WELDING PHOTOS -->
                                 <input type="file" id="welding_photos" name="welding_photos[]" multiple
-                                    accept="image/*" class="{{ $fileClass }}">
+                                    accept="image/jpeg,image/png" class="{{ $fileClass }}">
 
-                                <p class="mt-1.5 text-[11px] text-slate-400">
-                                    Bisa mengunggah lebih dari satu gambar.
-                                </p>
+                                <div class="mt-2 space-y-1">
+
+                                    <p class="flex items-center gap-1.5 text-[11px] text-slate-400">
+                                        <i class="bi bi-images"></i>
+                                        Bisa mengunggah lebih dari satu gambar.
+                                    </p>
+
+                                    <p class="flex items-center gap-1.5 text-[11px] text-blue-600">
+                                        <i class="bi bi-stars"></i>
+                                        Maksimal 5 MB per foto. Gambar otomatis dikompres saat disimpan.
+                                    </p>
+
+                                    <p class="text-[11px] text-slate-400">
+                                        Format JPG dan PNG.
+                                    </p>
+
+                                </div>
+
+                                <!-- VALIDATION ERRORS -->
+                                @error('welding_photos')
+                                    <p class="mt-2 text-xs text-red-600">{{ $message }}</p>
+                                @enderror
+
+                                @error('welding_photos.*')
+                                    <p class="mt-2 text-xs text-red-600">{{ $message }}</p>
+                                @enderror
 
 
                                 <!-- EXISTING GALLERY -->
@@ -536,12 +559,10 @@
                                                     value="{{ $photo }}" id="delete-photo-{{ $index }}"
                                                     class="peer sr-only">
 
-
                                                 <!-- IMAGE -->
                                                 <img src="{{ asset($photo) }}"
                                                     alt="Hasil pengelasan {{ $index + 1 }}"
                                                     class="aspect-[4/3] w-full object-cover transition-all duration-300 peer-checked:scale-95 peer-checked:opacity-30 peer-checked:grayscale group-hover:scale-[1.03]">
-
 
                                                 <!-- DELETION OVERLAY -->
                                                 <div
@@ -554,16 +575,12 @@
 
                                                 </div>
 
-
                                                 <!-- DELETE BUTTON -->
                                                 <label for="delete-photo-{{ $index }}"
                                                     title="Tandai foto untuk dihapus"
                                                     class="absolute right-2 top-2 flex h-8 w-8 cursor-pointer items-center justify-center rounded-lg bg-red-500 text-white shadow-md transition-all duration-200 hover:bg-red-600 active:scale-90 peer-checked:bg-slate-800 peer-checked:hover:bg-slate-900">
-
-                                                    <i class="bi bi-trash3 text-sm peer-checked:hidden"></i>
-
+                                                    <i class="bi bi-trash3 text-sm"></i>
                                                 </label>
-
 
                                                 <!-- PHOTO NUMBER -->
                                                 <div
@@ -582,8 +599,8 @@
                                         <i class="bi bi-info-circle mt-0.5"></i>
 
                                         <p>
-                                            Klik ikon tempat sampah untuk menandai foto yang ingin dihapus. Foto akan
-                                            dihapus setelah perubahan disimpan.
+                                            Klik ikon tempat sampah untuk menandai foto yang ingin dihapus.
+                                            Foto akan dihapus setelah perubahan disimpan.
                                         </p>
 
                                     </div>
@@ -603,31 +620,27 @@
 
                             </div>
 
-                        </div>
 
-                    </div>
+                            <!-- ==========================================
+                                 FORM ACTIONS
+                            =========================================== -->
 
+                            <div
+                                class="mt-8 flex flex-col-reverse justify-between gap-3 border-t border-slate-100 pt-6 sm:flex-row sm:items-center">
 
-                    <!-- ==========================================
-                             FORM ACTIONS
-                        =========================================== -->
+                                <a href="{{ $returnUrl ?? route('participants.index') }}"
+                                    class="inline-flex items-center justify-center gap-2 rounded-lg border border-slate-200 bg-white px-5 py-2.5 text-sm font-semibold text-slate-600 no-underline shadow-sm transition-all duration-200 hover:border-slate-300 hover:bg-slate-50 active:scale-[0.98]">
+                                    <i class="bi bi-arrow-left"></i>
+                                    Kembali
+                                </a>
 
-                    <div
-                        class="mt-8 flex flex-col-reverse justify-between gap-3 border-t border-slate-100 pt-6 sm:flex-row sm:items-center">
+                                <button type="submit"
+                                    class="mobile-pressable inline-flex items-center justify-center gap-2 rounded-lg bg-amber-500 px-6 py-2.5 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-amber-600 hover:shadow-md active:scale-[0.98] focus:outline-none focus:ring-4 focus:ring-amber-100">
+                                    <i class="bi bi-check2-circle"></i>
+                                    Update Data Peserta
+                                </button>
 
-                        <a href="{{ $returnUrl ?? route('participants.index') }}"
-                            class="inline-flex items-center justify-center gap-2 rounded-lg border border-slate-200 bg-white px-5 py-2.5 text-sm font-semibold text-slate-600 no-underline shadow-sm transition-all duration-200 hover:border-slate-300 hover:bg-slate-50 active:scale-[0.98]">
-                            <i class="bi bi-arrow-left"></i>
-                            Kembali
-                        </a>
-
-                        <button type="submit"
-                            class="mobile-pressable inline-flex items-center justify-center gap-2 rounded-lg bg-amber-500 px-6 py-2.5 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-amber-600 hover:shadow-md active:scale-[0.98] focus:outline-none focus:ring-4 focus:ring-amber-100">
-                            <i class="bi bi-check2-circle"></i>
-                            Update Data Peserta
-                        </button>
-
-                    </div>
+                            </div>
 
                 </form>
 
